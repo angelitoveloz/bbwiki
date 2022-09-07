@@ -1,0 +1,44 @@
+<app-header> </app-header>
+
+<main role="main">
+    <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">Breaking Bad Characters</h1>                    
+          <input type="text" class="form-control" placeholder="Enter character to search for..." (input)="filter($event)">
+        </div>
+      </section>
+      <div class="album py-5 bg-light">
+        <div class="container">
+            <pagination-controls (pageChange)="p = $event" style="text-align: center;"></pagination-controls>
+          <div class="row">            
+            <div *ngFor="let personaje of charactersData! | paginate: { itemsPerPage: 6, currentPage: p }" class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <img class="card-img-top"  src="{{personaje.img}}" alt="{{personaje.name}}">
+                <div class="card-body">
+                  <span class="btn btn-sm float-right" [ngClass]="{
+                    'btn-success': personaje.status!.toLowerCase().includes('alive'),
+                    'btn-danger': !personaje.status!.toLowerCase().includes('alive') }" >{{personaje.status}}</span>
+                  <h5 class="card-title">{{personaje.name}}</h5>
+                  <p class="text-muted">Nickname: {{personaje.nickname}}</p>
+                  <p class="card-text">Occupation(s):</p>
+                   
+                    <ul *ngFor="let occ of personaje.occupation" class="card-text">
+                      <li>{{occ}}</li>
+                    </ul>
+                  
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <a type="button" class="btn btn-sm btn-outline-secondary" href="/Character/{{personaje.char_id}}">Details</a>
+                    </div>
+                    <small class="text-muted">B-Day: {{personaje.birthday}}</small>
+                  </div>
+                </div>
+              </div>
+            </div>            
+          </div>
+          <pagination-controls (pageChange)="p = $event" style="text-align: center;"></pagination-controls>
+        </div>
+      </div>
+</main>
+
+<app-footer></app-footer>
